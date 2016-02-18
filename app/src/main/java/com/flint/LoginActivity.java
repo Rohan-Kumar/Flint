@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     SignInButton gplus;
     GoogleApiClient mGoogleApiClient;
     AutoCompleteTextView user_name, phone_number;
+    String name, email, id, profile_pic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     user_name.requestFocus();
                     return;
 
-                } else if (phone_number.getText().toString().equals("")) {
+                } else if (phone_number.getText().toString().length() != 10 ) {
                     phone_number.setError("Please enter your email");
                     phone_number.requestFocus();
                     return;
@@ -83,12 +84,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             try {
-                String name = acct.getDisplayName();
+                if (acct.getDisplayName() != null)
+                    name = acct.getDisplayName();
+                else
+                    name = "not available";
+
                 String email = acct.getEmail();
                 String id = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
-                String profile_pic = personPhoto.toString();
-                Log.d("Testing values", name + " " + email + " " + id + " " + profile_pic);
+                if (personPhoto != null)
+                    profile_pic = personPhoto.toString();
+                else
+                    profile_pic = "NA";
+                Log.d("Testing values",name+" "+email+" "+id+" "+profile_pic );
             } catch (NullPointerException e) {
             }
         }
