@@ -1,13 +1,18 @@
 package com.flint;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -17,6 +22,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
+
+import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -54,14 +61,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     user_name.requestFocus();
                     return;
 
-                } else if (phone_number.getText().toString().length() != 10 ) {
-                    phone_number.setError("Please enter your email");
+                } else if (phone_number.getText().toString().length() < 10 || phone_number.getText().toString().length() > 10  ) {
+                    phone_number.setError("Please enter your phone number");
                     phone_number.requestFocus();
                     return;
                 } else {
 
                     Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                     startActivityForResult(signInIntent, 200);
+
                 }
             }
         });
@@ -89,8 +97,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 else
                     name = "not available";
 
-                String email = acct.getEmail();
-                String id = acct.getId();
+                email = acct.getEmail();
+                id = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
                 if (personPhoto != null)
                     profile_pic = personPhoto.toString();
@@ -98,7 +106,35 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     profile_pic = "NA";
                 Log.d("Testing values",name+" "+email+" "+id+" "+profile_pic );
             } catch (NullPointerException e) {
+                Log.d("Data missing","Some data is missing");
             }
+
+            String available = "";
+            try {
+                available = new CheckUser(LoginActivity.this).execute(user_name.getText().toString(),email).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            if (available.equals("available")) {
+                Toast.makeText(LoginActivity.this, "Welcome to FLint!", Toast.LENGTH_SHORT).show();
+            }
+            else if (available.equals("taken")){
+                user_name.setError("Username already taken");
+                user_name.requestFocus();
+            }
+            else {
+                new AlertDialog.Builder(LoginActivity.this).setTitle("User already exists!")
+                        .setMessage("This user already exists with the user name "+available+"\nContinue using Flint with the username "+available+"?")
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(LoginActivity.this, "Welcome back to FLint!", Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
+            }
+
         }
     }
 
