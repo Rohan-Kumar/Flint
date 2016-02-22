@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -30,15 +29,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -50,8 +40,8 @@ public class MainActivity extends AppCompatActivity
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        PagerAdapter pagerAdapter = new SampleFragmentPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
+        viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(),
+                MainActivity.this));
 //        viewPager.setOffscreenPageLimit(2);
 
         // Give the TabLayout the ViewPager
@@ -65,9 +55,11 @@ public class MainActivity extends AppCompatActivity
     public class SampleFragmentPagerAdapter extends FragmentStatePagerAdapter {
         final int PAGE_COUNT = 2;
         private String tabTitles[] = new String[]{"Contacts", "Scan Activity"};
+        private Context context;
 
-        public SampleFragmentPagerAdapter(FragmentManager fm) {
+        public SampleFragmentPagerAdapter(FragmentManager fm, Context context) {
             super(fm);
+            this.context = context;
         }
 
         @Override
@@ -80,14 +72,14 @@ public class MainActivity extends AppCompatActivity
         @Override
         public Fragment getItem(int position) {
 
-            Fragment fragment;
+            Fragment fragment = null;
 
 
             if (position == 0) {
                 fragment = new ContactsFragment();
             }
-            else  {
-                fragment = new QRFragment();
+            if (position == 1) {
+                fragment = new ContactsFragment();
             }
 
             return fragment;
