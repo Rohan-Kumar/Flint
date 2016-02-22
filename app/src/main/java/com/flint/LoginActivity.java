@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             String available = "";
             try {
-                available = new CheckUser(LoginActivity.this).execute(user_name.getText().toString(),email).get();
+                available = new CheckUser().execute(user_name.getText().toString(),email).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {

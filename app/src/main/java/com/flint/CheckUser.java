@@ -1,6 +1,5 @@
 package com.flint;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -20,11 +19,11 @@ import java.net.URL;
  */
 public class CheckUser extends AsyncTask<String, Void, String> {
 
-    Context context;
+
     String Response = "";
 
-    CheckUser(Context context) {
-        this.context = context;
+    CheckUser() {
+
     }
 
     @Override
@@ -69,7 +68,7 @@ public class CheckUser extends AsyncTask<String, Void, String> {
             e.printStackTrace();
         }
 
-        Log.d("Testing",Response);
+        Log.d("Testing", Response);
         return Response;
     }
 
