@@ -1,8 +1,10 @@
 package com.flint;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,12 +30,14 @@ import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    String url = "";
+    String url = "http://84.200.84.218:3001/checkUserName";
 
     SignInButton gplus;
     GoogleApiClient mGoogleApiClient;
     AutoCompleteTextView user_name, phone_number;
     String name, email, id, profile_pic;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             parameteres.add(param);
 
-            param.paramName = "email";
+            param.paramName = "emailid";
             param.paramValue = email;
 
             parameteres.add(param);
@@ -137,6 +141,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 e.printStackTrace();
             }
             if (available.equals("available")) {
+                preferences = getSharedPreferences("SignIn", Context.MODE_PRIVATE);
+                editor = preferences.edit();
+                editor.putInt("LOGGED IN",1);
+                editor.apply();
                 Toast.makeText(LoginActivity.this, "Welcome to FLint!", Toast.LENGTH_SHORT).show();
             } else if (available.equals("taken")) {
                 user_name.setError("Username already taken");
@@ -147,6 +155,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                preferences = getSharedPreferences("SignIn", Context.MODE_PRIVATE);
+                                editor = preferences.edit();
+                                editor.putInt("LOGGED IN",1);
+                                editor.apply();
                                 Toast.makeText(LoginActivity.this, "Welcome back to FLint!", Toast.LENGTH_SHORT).show();
                             }
                         }).show();
