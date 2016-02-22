@@ -24,9 +24,9 @@ public class CheckUser extends AsyncTask<String, Void, String> {
     String Response = "";
 
     String URL;
-    ArrayList<paramClass> parameters;
+    ArrayList<ParamClass> parameters;
 
-    public CheckUser(String URL, ArrayList<paramClass> parameters) {
+    public CheckUser(String URL, ArrayList<ParamClass> parameters) {
 
         this.URL = URL;
         this.parameters = parameters;
@@ -82,8 +82,6 @@ public class CheckUser extends AsyncTask<String, Void, String> {
         return Response;
     }
 
-    public class paramClass{
-        String paramName,paramValue;
-    }
+
 
 }
