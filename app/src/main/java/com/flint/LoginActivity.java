@@ -145,6 +145,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 editor = preferences.edit();
                 editor.putInt("LOGGED IN",1);
                 editor.apply();
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
                 Toast.makeText(LoginActivity.this, "Welcome to FLint!", Toast.LENGTH_SHORT).show();
             } else if (available.equals("taken")) {
                 user_name.setError("Username already taken");
@@ -157,8 +160,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             public void onClick(DialogInterface dialog, int which) {
                                 preferences = getSharedPreferences("SignIn", Context.MODE_PRIVATE);
                                 editor = preferences.edit();
-                                editor.putInt("LOGGED IN",1);
+                                editor.putInt("LOGGED IN", 1);
                                 editor.apply();
+                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                startActivity(intent);
+                                finish();
                                 Toast.makeText(LoginActivity.this, "Welcome back to FLint!", Toast.LENGTH_SHORT).show();
                             }
                         }).show();
