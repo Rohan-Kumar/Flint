@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -134,7 +132,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             String available = "";
             try {
-                available = new CheckUser(url, parameteres).execute().get();
+                available = new MyAsyncTask(url, parameteres).execute().get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {

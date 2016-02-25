@@ -19,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new ContactsFragment();
             }
             if (position == 1) {
-                fragment = new ContactsFragment();
+                fragment = new QRFragment();
             }
 
             return fragment;

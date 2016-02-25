@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by Rohan on 2/18/2016.
  */
-public class CheckUser extends AsyncTask<String, Void, String> {
+public class MyAsyncTask extends AsyncTask<String, Void, String> {
 
 
     String Response = "";
@@ -26,7 +26,7 @@ public class CheckUser extends AsyncTask<String, Void, String> {
     String URL;
     ArrayList<ParamClass> parameters;
 
-    public CheckUser(String URL, ArrayList<ParamClass> parameters) {
+    public MyAsyncTask(String URL, ArrayList<ParamClass> parameters) {
 
         this.URL = URL;
         this.parameters = parameters;

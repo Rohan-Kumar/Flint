@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_below="@+id/nameTag"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="7dp"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:layout_marginTop="12dp"
@@ -57,6 +57,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
                 android:layout_below="@+id/view"
                 android:orientation="horizontal">
 
